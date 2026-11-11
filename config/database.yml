@@ -1,0 +1,44 @@
+# PostgreSQL. Connection settings come from environment variables so the same
+# file works both inside Docker Compose and on your own machine.
+#
+# The defaults match the `db` service in compose.yaml as seen from your host
+# (published on localhost:5433), so for local development you can run
+# `docker compose up db` and then `bin/dev`.
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV.fetch("DB_HOST", "localhost") %>
+  port: <%= ENV.fetch("DB_PORT", 5433) %>
+  username: <%= ENV.fetch("DB_USER", "postgres") %>
+  password: <%= ENV.fetch("DB_PASSWORD", "postgres") %>
+
+development:
+  <<: *default
+  database: ava_project_development
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: ava_project_test
+
+# Production uses separate databases for the app, cache, job queue and cable.
+# `bin/rails db:prepare` (run by bin/docker-entrypoint) creates all of them.
+production:
+  primary:
+    <<: *default
+    database: ava_project_production
+  cache:
+    <<: *default
+    database: ava_project_production_cache
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *default
+    database: ava_project_production_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *default
+    database: ava_project_production_cable
+    migrations_paths: db/cable_migrate

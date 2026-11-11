@@ -1,0 +1,50 @@
+# Run the whole app with one command:
+#
+#   docker compose up --build
+#
+# Then open http://localhost:3000
+#
+# This starts two containers: PostgreSQL (db) and the Rails app (web).
+# The app waits for the database, creates and migrates it, then boots.
+
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      # Only reachable from this machine; lets you run Rails outside Docker against this database.
+      - "127.0.0.1:5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+  web:
+    build: .
+    ports:
+      # Set PORT to use a different host port, e.g. PORT=8080 docker compose up
+      - "${PORT:-3000}:80"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      # Run background jobs inside the web process, so no separate worker container is needed.
+      SOLID_QUEUE_IN_PUMA: "true"
+      # Signs session cookies. This value is public, so it is only for running the app locally.
+      # Never reuse it for a real deployment.
+      SECRET_KEY_BASE: local-only-not-secret-3f9c1e7a5b2d4f608192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8
+    volumes:
+      - storage:/rails/storage
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  storage:
