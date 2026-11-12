@@ -1,0 +1,67 @@
+<% content_for :title, "Migration details" %>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">Migration details</h1>
+  <%= link_to "Back to history", imports_path, class: "btn btn-outline-secondary" %>
+</div>
+
+<p>
+  <strong><%= @import.filename %></strong>,
+  uploaded <%= @import.created_at.strftime("%Y-%m-%d %H:%M") %> UTC
+  <%= status_badge(@import) %>
+</p>
+
+<% if @import.status == "failed" %>
+  <div class="alert alert-danger">The file was not imported: <%= @import.failure_reason %></div>
+<% end %>
+
+<div class="row row-cols-2 row-cols-md-6 g-3 mb-4">
+  <% {
+    "Processed" => @import.processed_count,
+    "Created" => @import.created_count,
+    "Updated" => @import.updated_count,
+    "Unchanged" => @import.unchanged_count,
+    "Failed" => @import.failed_count,
+    "Duration" => "#{@import.duration_ms} ms"
+  }.each do |label, value| %>
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <div class="text-muted small"><%= label %></div>
+          <div class="fs-4 fw-semibold"><%= value %></div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% if @import.status == "completed" %>
+  <h2 class="h4">Rejected rows</h2>
+
+  <% if @errors.empty? %>
+    <div class="alert alert-success">No rows were rejected.</div>
+  <% else %>
+    <p class="text-muted">
+      Fix these lines in the file and upload it again. Rows that were already imported will not be duplicated.
+    </p>
+
+    <div class="card shadow-sm">
+      <table class="table mb-0">
+        <thead class="table-light">
+          <tr>
+            <th class="text-end" style="width: 7rem">CSV line</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @errors.each do |error| %>
+            <tr>
+              <td class="text-end"><%= error.line_number %></td>
+              <td><%= error.message %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+<% end %>

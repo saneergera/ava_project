@@ -1,0 +1,46 @@
+<% content_for :title, "Patients" %>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">Patients</h1>
+  <span class="badge text-bg-secondary fs-6"><%= pluralize(@patients.size, "patient") %> in the database</span>
+</div>
+
+<% if @patients.empty? %>
+  <div class="alert alert-info">
+    No patients yet. <%= link_to "Upload a CSV", new_import_path %> to import some.
+  </div>
+<% else %>
+  <div class="card shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Health ID</th>
+            <th>Name</th>
+            <th>Date of birth</th>
+            <th>Sex</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @patients.each do |patient| %>
+            <tr>
+              <td class="text-nowrap"><%= patient.health_identifier_province %> <%= patient.health_identifier %></td>
+              <td><%= [ patient.first_name, patient.middle_name, patient.last_name ].compact.join(" ") %></td>
+              <td class="text-nowrap"><%= patient.date_of_birth %></td>
+              <td><%= patient.sex %></td>
+              <td class="text-nowrap"><%= patient.phone %></td>
+              <td><%= patient.email %></td>
+              <td>
+                <%= [ patient.address_1, patient.address_2, patient.address_city,
+                      patient.address_province, patient.address_postal_code ].compact.join(", ") %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>

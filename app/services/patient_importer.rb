@@ -25,10 +25,7 @@ class PatientImporter
     @content = content
   end
 
-  # Runs the import.
-  #
-  # Returns:
-  #   Import: the saved import with its status and counts
+  # Runs the import and returns the saved Import with its status and counts.
   def call
     start_time = Time.current
     @import = Import.create!(filename: @filename)
@@ -59,23 +56,22 @@ class PatientImporter
 
   private
 
-  # Reads the csv and checks the file is ok.
-  #
-  # Returns:
-  #   Array: pairs of [row, line_number], empty lines skipped
-  #
-  # Raises:
-  #   FileError: if the file is empty, not UTF-8, not a csv,
-  #   missing columns or has no patients
+  # Reads the csv and returns a list of [row, line number] pairs.
+  # Raises FileError if the whole file has to be refused.
   def read_rows
-    text = @content.to_s.dup.force_encoding("UTF-8").delete_prefix("﻿")
+    # an uploaded file arrives as raw bytes, so mark the text as UTF-8
+    text = @content.dup.force_encoding("UTF-8")
     raise FileError, "The file is not valid UTF-8 text" unless text.valid_encoding?
+
+    # Excel puts an invisible marker at the start of the file
+    text = text.delete_prefix("\uFEFF")
     raise FileError, "The file is empty" if text.strip.empty?
 
-    csv = CSV.new(text, headers: true, header_converters: ->(header) { header.to_s.strip.downcase })
+    csv = CSV.new(text, headers: true)
 
     rows = []
     csv.each do |row|
+      # skip empty lines
       next if row.fields.all?(&:blank?)
 
       rows << [ row, csv.lineno ]
@@ -91,9 +87,7 @@ class PatientImporter
   end
 
   # Saves one row as a patient, or updates the patient if they already exist.
-  #
-  # Returns:
-  #   Symbol: :created, :updated, :unchanged or :failed
+  # Returns :created, :updated, :unchanged or :failed.
   def import_row(row, line_number)
     attributes = attributes_from(row)
 
@@ -103,7 +97,9 @@ class PatientImporter
     )
     patient.assign_attributes(attributes)
 
-    return reject(line_number, patient.errors.full_messages) unless patient.valid?
+    if patient.invalid?
+      return reject(line_number, patient.errors.full_messages)
+    end
 
     key = [ patient.health_identifier_province, patient.health_identifier ]
     if @seen[key]

@@ -25,9 +25,9 @@ class PatientImporterTest < ActiveSupport::TestCase
 
   test "rejects invalid rows with a reason and still imports the valid ones" do
     bad_date = "12,Alberta,David,Thomas,,,,,,,,,1989-28-04,M"
-    no_identifier = "unknown,Alberta,John,Doe,,,,,,,,,,M"
+    bad_identifier = "unknown,Alberta,John,Doe,,,,,,,,,,M"
 
-    import = import_csv(JANE, bad_date, no_identifier)
+    import = import_csv(JANE, bad_date, bad_identifier)
 
     assert_equal 1, import.created_count
     assert_equal 2, import.failed_count

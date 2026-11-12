@@ -1,6 +1,5 @@
 require "test_helper"
 
-
 class PatientTest < ActiveSupport::TestCase
   # A valid patient with only the required fields. Each test changes one thing.
   def build_patient(changes = {})

@@ -1,0 +1,21 @@
+<% content_for :title, "Upload patients" %>
+
+<div class="card shadow-sm">
+  <div class="card-body p-4">
+    <h1 class="h3 card-title">Upload patient CSV</h1>
+
+    <p class="text-muted">
+      Choose a CSV file of patient demographics. Uploading the same file again is safe:
+      patients that are already stored are not duplicated.
+    </p>
+
+    <%= form_with url: imports_path, multipart: true do |form| %>
+      <div class="mb-3">
+        <%= form.label :file, "CSV file", class: "form-label" %>
+        <%= form.file_field :file, accept: ".csv,text/csv", required: true, class: "form-control" %>
+      </div>
+
+      <%= form.submit "Start Migration", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
