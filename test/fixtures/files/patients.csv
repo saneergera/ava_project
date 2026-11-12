@@ -1,0 +1,21 @@
+health identifier,health identifier province,first name,last name,middle name,phone,email,address 1,address 2,address province,address city,address postal code,date of birth,sex
+13,Alberta,Barbara,Jackson,,867-555-6783,barbara.jackson@example.com,123 Pine Dr,,Alberta,Edmonton,Y1A 5N1,1991-08-13,M
+19,AB,Brian,Rodriguez,Hall,403-555-4568,brian.rodriguez@example.com,123 Birch Dr,Unit 4,Alberta,Edmonton,T2P1M9,1982-07-20,M
+12,Alberta,David,Thomas,Lewis,867-555-2342,david.thomas@example.com,,,Alberta,Edmonton,X1A 2N9,1989-28-04,M
+8,Alberta,Elizabeth,Davis,,1-902-555-7890,elizabeth.davis@example.com,456 Pine St,,Alberta,Edmonton,,1992-02-04,F
+5,British Columbia,James,Brown,Jones,403-555-8901,james.brown@example.com,789 Pine St,Unit 2,BC,squamish,T2P 1M9,1975-11-22,M
+2,Alberta,Jane,Smith,lee,604-555-4567,jane.smith@example.com,456 Maple Dr,,Alberta,Edmonton,V6B 1A4,1982-07-18,F
+10,Alberta,Mary Anne,Thomas,Clark,709-555-4567,jennifer.taylor@example.com,321 Spruce St,,Alberta,Calgary,A1C 5S7,1981-11-29,F
+15,Alberta,Jessica,Moore,Lee,902-555-3450,jessica.moore@example.com,789 Birch Dr,Apt 10,Alberta,Edmonton,C1A 7N1,,F
+unknown,Alberta,john,doe,Smith,416-555-0123,john.doe@example.com,123 Fake St,Apt 4,Alberta,Edmonton,M5V 1E3,1980-05-12,M
+16,Alberta,Joseph,Harris,,902-555-6781,joseph.harris@example.com,321 Pine St,,Alberta,Edmonton,B3K5M7,1990-01-09,M
+18,Alberta,Karen,Clark,,418-555-1235,karen.clark@example.com,,,Alberta,Edmonton,H3Z 2V8,1986-03-06,nb
+20,Alberta,Kevin,Cheng,Thompson,604-555-7893,kevin.miller@example.com,456 Elm St,,Alberta,Calgary,V6B 1A4,1979-08-30,M
+11,Alberta,Linda,Anderson,,,linda.anderson@example.com,654 Elm St,,Alberta,Edmonton,X0A 0H0,1977-03-15,F
+4,Alberta,Mary,Johnson,,418-555-2345,mary.johnson@example.com,,,Alberta,Edmonton,H3Z 2V8,1990-03-07,F
+14,Alberta,Gurdeep,Singh,,867-555-0123,matthew.white@example.com,456 Oak St,,Alberta,Edmonton,,1987-12-01,F
+7,Alberta,Michael,Miller,Jackson,902-555-3456,michael.miller@example.com,123 Elm Dr,Apt 3,Alberta,Edmonton,B3K 5M7,1984-06-30,m
+6,Alberta,Patricia,Jones,Anderson,506-555-0120,patricia.jones@example.com,987 Spruce St,,Alberta,Edmonton,,1978-01-20,u
+5,Alberta,Robert,WILLIAMS,,204-555-6789,robert.williams@example.com;,654 Birch Dr,Suite 10,Alberta,Edmonton,R3C 0R3,1986-09-16,M
+17,Alberta,Susan,Martin,Smith,204-555-8902,susan.martin@example.com,654 Spruce St,Suite 3,Alberta,Edmonton,R3C 0R3,1985-02-16,F
+unknown,Alberta,William,Wilson,,306-555-1234,william.wilson@example.com,789 Maple Dr,Suite 20,Alberta,Edmonton,S4P 3X1,1988-07-15,M
